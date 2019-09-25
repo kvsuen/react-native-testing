@@ -1,7 +1,11 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, Button, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Button, Image, Dimensions } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
+
+const { height } = Dimensions.get("window");
+
+const width = height * 3/4
 
 import Axios from 'axios';
 
@@ -10,7 +14,7 @@ export default class CameraExample extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     on: true,
-    uri: undefined
+    uri: undefined,
   };
 
   async componentDidMount() {
@@ -29,20 +33,20 @@ export default class CameraExample extends React.Component {
 
       const image = photo.base64
       const data = new FormData();
-      await data.append("image_data", image);
-      console.log(data)
+      data.append("image_data", image);
 
       Axios({
         method: 'post',
-        url: 'https://1b4acb65.ngrok.io/image',
+        url: 'https://de056fca.ngrok.io/image',
         data: data,
         config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
-        .then(function (response) {
-            console.log(response);
+        .then(resp => {
+            console.log('success')
+            console.log(resp.data);
         })
-        .catch(function (response) {
-            console.log(response);
+        .catch(resp => {
+            console.log(resp.data);
         });
     }
   };
@@ -60,16 +64,14 @@ export default class CameraExample extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          
 
           {this.state.on && (
             <Camera 
-            style={{ flex: 1 }} 
-            type={this.state.type}
-            ref={ref => {
-              this.camera = ref;
-            }}
-            ratio={"4:3"}
+              style={{ flex: 1, width: width, height: height }} 
+              type={this.state.type}
+              ref={ref => {
+                this.camera = ref;
+              }}
             >
               <View
                 style={{
@@ -92,14 +94,19 @@ export default class CameraExample extends React.Component {
                     });
                   }}>
                   <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-                  <Button title="Snap" onPress={this.snap} />
                 </TouchableOpacity>
+                <View style={{flex: 0.6, alignSelf: 'flex-end'}}>
+                  <View style={{width: '20%', alignSelf: 'center'}}>
+                    <Button title="Snap" onPress={this.snap} />
+
+                  </View>
+                </View>
               </View>
             </Camera>
           )}
 
           {this.state.uri && (
-            <View style= {{flex: 1}}>
+            <View style= {{flex: 1, zIndex: 500}}>
               <Image style={{flex: 1}} source={{uri: this.state.uri}}/>
               <Button title="Take Another" onPress={this.takeAnother} />
             </View>      
