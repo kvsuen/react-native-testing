@@ -84,21 +84,13 @@ export default class CameraExample extends React.Component {
                     flex: 0.1,
                     alignSelf: 'flex-end',
                     alignItems: 'center',
+                    backgroundColor: 'gray'
                   }}
-                  onPress={() => {
-                    this.setState({
-                      type:
-                        this.state.type === Camera.Constants.Type.back
-                          ? Camera.Constants.Type.front
-                          : Camera.Constants.Type.back,
-                    });
-                  }}>
-                  <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+                >
                 </TouchableOpacity>
-                <View style={{flex: 0.6, alignSelf: 'flex-end'}}>
+                <View style={{flex: 0.6, alignSelf: 'center'}}>
                   <View style={{width: '20%', alignSelf: 'center'}}>
                     <Button title="Snap" onPress={this.snap} />
-
                   </View>
                 </View>
               </View>
@@ -125,7 +117,7 @@ export default class CameraExample extends React.Component {
                       justifyContent: 'center',
                       borderRadius: 5,
                       position:'absolute',
-                      bottom:20,
+                      bottom:200,
                     }}
                     onPress={this.takeAnother}
                 >
