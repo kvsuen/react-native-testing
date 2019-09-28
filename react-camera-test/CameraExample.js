@@ -37,7 +37,7 @@ export default class CameraExample extends React.Component {
 
       Axios({
         method: 'post',
-        url: 'https://de056fca.ngrok.io/image',
+        url: 'https://split-awesome.herokuapp.com/snap',
         data: data,
         config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
